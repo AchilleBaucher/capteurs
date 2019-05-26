@@ -1,6 +1,6 @@
 #PARAMETRES
 nomData = "data.csv"
-nb_robots = 100
+nb_robots = 1000
 N_PLOT = 20
 nb_jours = 350
 visu = FALSE
@@ -12,7 +12,7 @@ source("cat_binaire.r")
 source("fia_intervalles.r")
 
 #PARAMETRES
-sigma = 0.2
+sigma = 0.1
 NBV = 12
 
 
@@ -27,7 +27,7 @@ VARS = VARIABILITES(DATA,visu = visu)
 
 
 #DONNER UNE CATEGORIE A CHAQUE CAPTEUR
-CATS = CATEGORIES(DATA,visu=visu)
+CATS = CATEGORIES(DATA,visu=TRUE)
 #CATS[capteur]
 
 
