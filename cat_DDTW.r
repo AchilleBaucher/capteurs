@@ -3,6 +3,10 @@
 categories = function(data,visu=FALSE){
 	#Renvoie la liste des catégories de chaque capteur
 	n = length(data)
+
+
+	evolution = matrix(NA,((n-1)*n )%/% 2,n)
+
 	sim = matrix(rep(NA,n*n),c(n,n))
 	for (i in seq(n-1)){
 		for (j in seq(i+1,n)){ 
@@ -16,13 +20,6 @@ categories = function(data,visu=FALSE){
 	}
 
 	ordre = order(sim)
-
-
-	print(sim)
-	print(order(sim))
-
-	evolution = matrix(NA,((n-1)*n )%/% 2,n)
-
 	maxnb=0
 
 	for(vague in seq(2,((n-1)*n )%/% 2)){
@@ -33,7 +30,9 @@ categories = function(data,visu=FALSE){
 		evolution[vague,] = evolution[vague-1,]
 
 		c1 = indice %/% n + 1
-		c2 = indice %% n
+		c2 = indice %% n + n *((indice %% n) ==0)
+		print(c1)
+		print(c2)
 		cc1 = evolution[vague-1,c1]
 		cc2 = evolution[vague-1,c2]
 
@@ -124,7 +123,7 @@ distDTV = function(x1, x2, x3, y1, y2, y3){
 TEST=TRUE
 if(TEST){
 	nomData = "data.csv"
-	nb_robots = 7
+	nb_robots = 5
 	nb_jour = 100
 
 	data = EXTRACTEUR(nomData,nb_robots,nb_jour)
