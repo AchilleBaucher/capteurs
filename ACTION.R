@@ -1,6 +1,6 @@
 #PARAMETRES
 nomData = "data.csv"
-nb_robots = 1000
+nb_robots = 600
 N_PLOT = 20
 nb_jours = 350
 visu = FALSE
@@ -36,7 +36,10 @@ FIABS = FIABILITES(VARS,CATS,visu=visu)
 #FIABS[capteur,variable]
 
 #VISUALISER LES FIABILITES DE PLUSIEURS CATEGORIES
-plusieurs_cat = c(1,8)
+plusieurs_cat = c(1)
 plusieurs_var = c(1,2,3)
-VOIR_FIA(VARS,CATS,categories = plusieurs_cat,variables=plusieurs_var)
+#VOIR_FIA(VARS,CATS,categories = plusieurs_cat,variables=plusieurs_var)
 
+
+#VOIR LES MOINS FIABLES DE PLUSIEURS CATEGORIES
+MOINSFIABLES(FIABS,DATA,CATS,cats = plusieurs_cat,nb=4)

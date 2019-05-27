@@ -181,3 +181,24 @@ VOIR_FIA = function(VARS,CATS,categories=c(1),variables=c(1)){
 	}
 	
 }
+
+MOINSFIABLES = function(FIABS,DATA,CATS,nb = 2,cats = seq(1)){
+	for(c in cats){
+		ordre = order(FIABS[which(CATS==c)])
+		n = length(FIABS[,1])
+		for(i in seq(nb)){
+			ind=ordre[i]
+			num = ind%%n+length(FIABS[,1])*(ind%%n==0)
+			v= ind%/%n+1
+			titre = paste("Capteur pas fiable! cat",c,"numero",num,"fiab=",FIABS[ind],"\n")
+			x11()
+			plot(DATA[[num]][v,],main=titre,type='l')
+		}
+		x11()
+		ind=ordre[length(ordre)]
+		num = ind%%n+length(FIABS[,1])*(ind%%n==0)
+		v= ind%/%n+1
+		titre = paste("Capteur très fiable! cat",c,"numero",num,"fiab=",FIABS[ind],"\n")
+		plot(DATA[[num]][v,],main=titre,type='l')
+	}
+}
