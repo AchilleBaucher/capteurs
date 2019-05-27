@@ -1,8 +1,5 @@
 #data[[capteur]][variable,temps]
 
-
-data = 
-
 categories = function(data,visu=FALSE){
 	#Renvoie la liste des catégories de chaque capteur
 	n = length(data)
@@ -25,43 +22,49 @@ categories = function(data,visu=FALSE){
 	print(order(sim))
 
 	evolution = matrix(NA,((n-1)*n )%/% 2,n)
+
 	maxnb=0
+
 	for(vague in seq(2,((n-1)*n )%/% 2)){
-		cat("Suivant! ",vague,"\n")
-		indice = ordre[vague]
+		indice = ordre[vague-1]
+		cat("Suivant! ",vague,"indice",indice,"\n")
+		
+
 		evolution[vague,] = evolution[vague-1,]
+
 		c1 = indice %/% n + 1
 		c2 = indice %% n
 		cc1 = evolution[vague-1,c1]
 		cc2 = evolution[vague-1,c2]
+
 		if(is.na(cc1)){
 			if(is.na(cc2)){
 				maxnb = maxnb+1
 				evolution[vague,c1] = maxnb
 				evolution[vague,c2] = maxnb
-				cat("Personne!",c1,cc1,c2,cc2,"\n")
+				cat("Aucun n'a encore de catégories!                ",c1,cc1,c2,cc2,"\n")
 				print(evolution[vague,])
 			}
 			else {
 				evolution[vague,c1] = cc2
-				cat("Le c2!",c1,cc1,c2,cc2,"\n")
+				cat("Le c2 a déjà une catégorie!                    ",c1,cc1,c2,cc2,"\n")
 				print(evolution[vague,])
 			}
 		}
 		else if(is.na(cc2)){
 			evolution[vague,c2] = cc1
-			cat("Le c1!",c1,cc1,c2,cc2,"\n")
+			cat("Le c1 a déjà une catégorie!                    ",c1,cc1,c2,cc2,"\n")
 			print(evolution[vague,])
 		}
 		else if(cc1!=cc2){
 			min = min(cc1,cc2)
 			ancien = evolution[vague-1,]
 			evolution[vague,which(ancien==max(cc1,cc2))] = min
-			cat("Les deux!",c1,cc1,c2,cc2,"\n")
+			cat("Les deux ont une catégorie!                    ",c1,cc1,c2,cc2,"\n")
 			print(evolution[vague,])
 		}
 		else {
-			cat("Zut!",c1,cc1,c2,cc2,"\n")
+			cat("Zut les deux sont dans la même on en fait rien!",c1,cc1,c2,cc2,"\n")
 			print(evolution[vague,])
 		}
 	}
