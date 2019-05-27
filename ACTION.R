@@ -1,8 +1,8 @@
 #PARAMETRES
 nomData = "data.csv"
-nb_robots = 600
+nb_robots = 610
 N_PLOT = 20
-nb_jours = 350
+nb_jours = 260
 visu = FALSE
 
 source("fonctionsBase.r")
@@ -27,7 +27,12 @@ VARS = VARIABILITES(DATA,visu = visu)
 
 
 #DONNER UNE CATEGORIE A CHAQUE CAPTEUR
-CATS = CATEGORIES(DATA,visu=TRUE)
+#CATS = CATEGORIES(DATA,visu=TRUE)
+source("kmeans.r")
+CATS = K
+print(CATS)
+valeurs = valeurs_pour_kmeans(DATA)
+
 #CATS[capteur]
 
 
@@ -35,11 +40,23 @@ CATS = CATEGORIES(DATA,visu=TRUE)
 FIABS = FIABILITES(VARS,CATS,visu=visu)
 #FIABS[capteur,variable]
 
+#VISUALISER LES COURBES DE PLUSIEURS CATEGORIES
+
+#en choisir une d'une catégorie nombreuse: 
+cat = 2
+while(length(CATS[CATS==cat])<50){
+	cat = cat + 1
+}
+plusieurs_cat = c(cat)
+
+cat("On choisit la catgéorie",cat,"qui a une taille de",length(CATS[CATS==cat]),"\n")
+VOIRMARCO(CATS,valeurs,plusieurs_cat)
+
 #VISUALISER LES FIABILITES DE PLUSIEURS CATEGORIES
-plusieurs_cat = c(1)
-plusieurs_var = c(1,2,3)
-#VOIR_FIA(VARS,CATS,categories = plusieurs_cat,variables=plusieurs_var)
+VOIR_FIA(VARS,CATS,categories = plusieurs_cat,variables=c(1))
 
 
 #VOIR LES MOINS FIABLES DE PLUSIEURS CATEGORIES
-MOINSFIABLES(FIABS,DATA,CATS,cats = plusieurs_cat,nb=4)
+nbfiables = 1
+nbdeficients = 1
+MOINSFIABLES(FIABS,DATA,CATS,VARS,cats = plusieurs_cat,nb=nbfiables,nbf=nbfiables)

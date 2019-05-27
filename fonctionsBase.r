@@ -150,7 +150,6 @@ VOIR_FIABS = function(DATA,VARS,CATS,FIABS,nb=4,nbcats=1){
 		ceuxla = which(CATS==i)
 		for(j in seq(nb)){
 			capteur = ceuxla[j]
-			print(capteur)
 			for(v in seq(3)){
 				plot(DATA[[capteur]][v,],main = paste("c",capteur,"v",v,": var=",VARS[capteur,v],"cat=",CATS[capteur],"fiab=",FIABS[capteur,v]),type = 'l',ylab='data',xlab='temps')
 			}
@@ -182,23 +181,43 @@ VOIR_FIA = function(VARS,CATS,categories=c(1),variables=c(1)){
 	
 }
 
-MOINSFIABLES = function(FIABS,DATA,CATS,nb = 2,cats = seq(1)){
+MOINSFIABLES = function(FIABS,DATA,CATS,VARS,nb = 1,cats = seq(1),nbf=1){
 	for(c in cats){
 		ordre = order(FIABS[which(CATS==c)])
 		n = length(FIABS[,1])
 		for(i in seq(nb)){
 			ind=ordre[i]
-			num = ind%%n+length(FIABS[,1])*(ind%%n==0)
-			v= ind%/%n+1
-			titre = paste("Capteur pas fiable! cat",c,"numero",num,"fiab=",FIABS[ind],"\n")
+			num=which(CATS==c)[ind]
+			titre = paste("Déficient! cat",c,"numero",num,"fiab=",FIABS[num,1],"var=",VARS[num,1],"\n")
 			x11()
-			plot(DATA[[num]][v,],main=titre,type='l')
+			plot(DATA[[num]][1,],main=titre,type='l',xlab="Temps",ylab="Valeurs")
+
 		}
+		for(i in seq(nbf)){
+			x11()
+			ind=ordre[length(ordre)-i]
+			num=which(CATS==c)[ind]
+			titre = paste("Fiable! cat",c,"numero",num,"fiab=",FIABS[num,1],"var=",VARS[num,1],"\n")
+			plot(DATA[[num]][1,],main=titre,type='l',xlab="Temps",ylab="Valeurs")
+		}
+	}
+}
+valeurs_pour_kmeans = function(DATA){
+	valeurs = matrix(0,length(DATA),length(DATA[[1]][1,]))
+	for(i in seq(length(DATA))){
+		valeurs[i,] = DATA[[i]][1,]
+	}
+	return(valeurs)
+}
+VOIRMARCO = function(CATS,valeurs,quelquescats){
+	for(i in quelquescats){
 		x11()
-		ind=ordre[length(ordre)]
-		num = ind%%n+length(FIABS[,1])*(ind%%n==0)
-		v= ind%/%n+1
-		titre = paste("Capteur très fiable! cat",c,"numero",num,"fiab=",FIABS[ind],"\n")
-		plot(DATA[[num]][v,],main=titre,type='l')
+		Vect = which(CATS==i)
+		plot(1:260,valeurs[Vect[1],],type='l',xlab="Temps",ylab="Valeurs",main=paste("La catégorie",i),ylim=c(min(valeurs[Vect,]),max(valeurs[Vect,])))
+		
+		for (i in 2:length(Vect)) {
+			lines(1:260,valeurs[Vect[i],],col=i)
+		}
+	
 	}
 }
