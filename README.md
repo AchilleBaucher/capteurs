@@ -1,5 +1,6 @@
 # RAPPORT
-[Lire le rapport](Capteurs.pdf)
+![Première page du rapport](premierepage.png)
+[Lire le rapport entier](Capteurs.pdf)
 data.csv : les données
 
 # Les codes suivants sont généraux:
